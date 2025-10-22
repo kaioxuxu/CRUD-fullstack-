@@ -15,7 +15,7 @@ exports.criar = (req, res) => {
         nome: req.body.nome,
         autor: req.body.autor,
         ano: req.body.ano,
-        disponibilidade: req.body.disponivel === 'on' || req.body.disponivel === true, 
+        disponibilidade: req.body.disponibilidade, 
     };
 
     Livro.create(livro)
