@@ -1,26 +1,23 @@
 // models/livro.model.js
-module.exports = (sequelize, DataTypes) => {
-  const Livro = sequelize.define("livro", {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    nome: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    autor: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    ano: {
-      type: DataTypes.INTEGER,
-    },
-    disponibilidade: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true,
-    },
-  });
-  return Livro;
+module.exports = (sequelize, Sequelize) => {
+    const Livro = sequelize.define("livro", {
+        nome: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        autor: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        ano: {
+            type: Sequelize.INTEGER
+        },
+        // O nome da coluna no seu DB é 'disponibilidade'
+        disponibilidade: { 
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+        }
+    });
+
+    return Livro;
 };

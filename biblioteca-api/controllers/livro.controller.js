@@ -1,24 +1,37 @@
-const db    = require("../models");
-const Livro = db.livros; // supondo que exportamos como plural
+// controllers/livro.controller.js
+const db = require("../models");
+const Livro = db.livros; 
+
 // Cadastra um novo livro
 exports.criar = (req, res) => {
-  if (!req.body.nome || !req.body.autor) {
-    res.status(400).send({ message: "Nome e autor são obrigatórios!" });
-    return;
-  }
-  const livro = {
-    nome: req.body.nome,
-    autor: req.body.autor,
-    ano: req.body.ano,
-    disponibilidade: req.body.disponibilidade ?? true,
-  };
-  Livro.create(livro)
-    .then((data) => res.status(201).send(data))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    // Para garantir que o campo 'disponivel' está sendo enviado (do frontend)
+    console.log("Dados recebidos (req.body):", req.body); 
+
+    if (!req.body.nome || !req.body.autor) {
+        return res.status(400).send({ message: "Nome e autor são obrigatórios!" });
+    }
+
+    const livro = {
+        nome: req.body.nome,
+        autor: req.body.autor,
+        ano: req.body.ano,
+        // CORREÇÃO: Mapeia o campo 'disponivel' (enviado pelo frontend) 
+        // para o campo 'disponibilidade' (esperado pelo DB/Modelo)
+        disponibilidade: req.body.disponivel ?? true, 
+    };
+
+    Livro.create(livro)
+        .then((data) => res.status(201).send(data))
+        .catch((err) => res.status(500).send({ 
+            message: err.message || "Erro ao tentar salvar o livro."
+        }));
 };
+
 // Lista todos os livros
 exports.listar = (req, res) => {
-  Livro.findAll()
-    .then((data) => res.send(data))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    Livro.findAll()
+        .then((data) => res.send(data))
+        .catch((err) => res.status(500).send({ 
+            message: err.message || "Erro ao listar os livros." 
+        }));
 };
