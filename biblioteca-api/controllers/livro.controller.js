@@ -15,9 +15,7 @@ exports.criar = (req, res) => {
         nome: req.body.nome,
         autor: req.body.autor,
         ano: req.body.ano,
-        // CORREÇÃO: Mapeia o campo 'disponivel' (enviado pelo frontend) 
-        // para o campo 'disponibilidade' (esperado pelo DB/Modelo)
-        disponibilidade: req.body.disponivel ?? true, 
+        disponibilidade: req.body.disponivel === 'on' || req.body.disponivel === true, 
     };
 
     Livro.create(livro)
